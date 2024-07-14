@@ -4,35 +4,47 @@
     <CCol>
       <CCard>
         <CCardHeader>
-         ایجاد ماینر
+          ایجاد ماینر
         </CCardHeader>
         <CCardBody>
 
           <form @submit.prevent="submit()" method="POST">
-                            <div>
-                            <input v-model="title" class="form-control" style="text-align: right; padding: 5px;margin: auto;" type="text" name="title" placeholder="تیتر" required><br>
-                            <textarea v-model="des" class="form-control" style="text-align: right;padding: 5px;margin: auto;" name="des" rows="5" cols="25" placeholder="توضیحات" required></textarea><br>
-                            <input v-model="profit" class="form-control" style="text-align: right;padding: 5px;margin: auto;" type="number" step="0.00001" name="profit" placeholder="میزان سود " required><br>
-                            <input v-model="price" class="form-control" style="text-align: right;padding: 5px;margin: auto;" type="number" step="0.00001" name="price" placeholder="قیمت " required><br>
-                            <input v-model="rate" class="form-control" style="text-align: right;padding: 5px;margin: auto;" type="number" step="0.00001" name="price" placeholder="هش ریت " required><br>
-                            <input v-model="period" style="text-align: right;padding: 5px" type="radio" value="360" name="period" id="period" required><label>سالانه</label>
-                            <br>
-                            <input v-model="period" style="text-align: right;padding: 5px" type="radio" value="180" name="period" id="period" required><label>شش ماهه</label>
-                            <br>
-                            <input v-model="period" style="text-align: right;padding: 5px" type="radio" value="30" name="period" id="period" required><label>ماهانه</label>
-                            <br>
-                            <input v-model="period"  style="text-align: right;padding: 5px" type="radio" value="1" name="period" id="period" required><label>روزانه</label>
-                            <br><br>
-                            <input v-model="cur" class="form-control" style="" type="text" list="cur" name="cur" placeholder="ارز"/>
-                             <datalist id="cur">
+            <div>
+              <input v-model="title" class="form-control" style="text-align: right; padding: 5px;margin: auto;"
+                type="text" name="title" placeholder="تیتر" required><br>
+              <textarea v-model="des" class="form-control" style="text-align: right;padding: 5px;margin: auto;"
+                name="des" rows="5" cols="25" placeholder="توضیحات" required></textarea><br>
+              <input v-model="profit" class="form-control" style="text-align: right;padding: 5px;margin: auto;"
+                type="number" step="0.00001" name="profit" placeholder="میزان سود " required><br>
+              <input v-model="price" class="form-control" style="text-align: right;padding: 5px;margin: auto;"
+                type="number" step="0.00001" name="price" placeholder="قیمت " required><br>
+              <input v-model="rate" class="form-control" style="text-align: right;padding: 5px;margin: auto;"
+                type="number" step="0.00001" name="price" placeholder="هش ریت " required><br>
+              <input v-model="period" style="text-align: right;padding: 5px" type="radio" value="360" name="period"
+                id="period" required><label>سالانه</label>
+              <br>
+              <input v-model="period" style="text-align: right;padding: 5px" type="radio" value="180" name="period"
+                id="period" required><label>شش ماهه</label>
+              <br>
+              <input v-model="period" style="text-align: right;padding: 5px" type="radio" value="30" name="period"
+                id="period" required><label>ماهانه</label>
+              <br>
+              <input v-model="period" style="text-align: right;padding: 5px" type="radio" value="1" name="period"
+                id="period" required><label>روزانه</label>
+              <br><br>
+              <!-- <input v-model="cur" class="form-control" style="" type="text" list="cur" name="cur" placeholder="ارز" /> -->
+              <select class="form-control" v-model="cur" id="cur">
 
-                                        <option v-for="item in curs">{{item.name}}</option>
+                <option v-for="item in curs" v-bind:key="item" :value="item.id">{{ item.name }}</option>
 
-                                     </datalist>
-                        </div>
-                                <br>
-                                <input class="btn btn-info" style="margin: auto; width: 30%; margin: 0 33%" type="submit">
-                        </form>  
+              </select>
+              <label>تصویر</label>
+              <input class="form-control" style="text-align: right; padding: 5px;margin: auto;" type="file" id="pic"
+                value=""><br>
+            </div>
+            <br>
+            <input class="btn btn-info" style="margin: auto; width: 30%; margin: 0 33%" type="submit">
+          </form>
         </CCardBody>
       </CCard>
     </CCol>
@@ -54,20 +66,29 @@ export default {
     percentm: '',
     period: '',
     cur: '',
-    curs : [],
+    curs: [],
     des: ''
   }),
   mounted() {
     this.get_curs()
+    this.get_cur()
   },
   methods: {
+    async get_curs() {
+      await axios
+        .get(`admin/cur`)
+        .then(response => response.data)
+        .then(response => {
+          this.curs = response
+        })
+    },
     login() {
       this.$store.state.showloginindex = true
     },
-    async get_curs() {
+    async get_cur() {
       var id = this.$route.params.id
       await axios
-      .get(`admin/miner/${id}`)
+        .get(`admin/miner/${id}`)
         .then(response => response.data)
         .then(response => {
           this.title = response.title
@@ -75,7 +96,7 @@ export default {
           this.des = response.des
           this.price = response.price
           this.period = response.period
-          this.cur = response.get_cur
+          this.cur = response.currency.id
           this.rate = response.rate
         })
     },
@@ -88,20 +109,27 @@ export default {
         })
     },
     async submit() {
-      await axios
-        .post(`admin/miner`, {
-          title : this.title,
-          profti : this.profit,
-          period: this.period,
-          rate: this.rate,
-          cur: this.cur,
-          des: this.des,
-          price: this.price
+      var id = this.$route.params.id
+      var formdata = new FormData()
+      if (document.getElementById('pic').files.length) {
+        var pic = document.getElementById('pic').files[0]
+        formdata.append('pic', pic, pic.name)
+      }
 
-        })
+      formdata.append('profit', this.profit,)
+      formdata.append('title', this.title,)
+      formdata.append('period', this.period,)
+      formdata.append('rate', this.rate,)
+      formdata.append('cur', this.cur,)
+      formdata.append('des', this.des,)
+      formdata.append('price', this.price,)
+
+      await axios
+        .put(`admin/miner/${id}`, formdata)
         .then(response => response.data)
         .then(response => {
-          this.user = response
+          const toPath = this.$route.go || '/manage-miner'
+          this.$router.push(toPath)
         })
     }
   }

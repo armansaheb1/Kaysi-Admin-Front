@@ -9,38 +9,38 @@
         <CCardBody>
 
           <div style="width:100%; overflow: auto">
-                            
-                        <table style="direction: rtl; width: 100%" class="table table-striped table-responsive" >
-                            <thead>
-                              <tr>
-                                <th  style="width: 20%;">نام ارز</th>
-                                <th  style="width: 20%;">تصویر ارز</th>
-                                <th  style="width: 20%;"> آدرس ارز </th>
-                                <th  style="width: 20%;"> بارکد ارز </th>
-                                <th  style="width: 20%;">  عملیات </th>
 
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr v-for="item in curs">
-                                <td>{{item.name}}</td>
-                                <td><img style="width: 40%;" :src="item.get_image"> </td>
-                                <td style="width: 20%">{{item.address}}</td>
-                                <td><img style="width: 100%;" :src="item.get_qr"></td>
-                                <td ><a :href="'/edit-currency/' + item.id" class="btn btn-info" style="color: white" onclick="">
-                                    Edit
-                                    </a><button @click="deletes(item.id)" class="btn btn-danger" onclick="">
-                                    Delete
-                                    </button></td>
-                                <td></td>
-                              </tr>
-                           <tr>
-                            <td v-if="!this.curs.length" colspan="6">ارزی موجود نیست</td>
-                            </tr>
-                             </tbody>
-                            </table>
-                        
-                    </div> 
+            <table style="direction: rtl; width: 100%" class="table table-striped table-responsive">
+              <thead>
+                <tr>
+                  <th style="width: 20%;">نام ارز</th>
+                  <th style="width: 20%;">تصویر ارز</th>
+                  <th style="width: 20%;"> آدرس ارز </th>
+                  <th style="width: 20%;"> بارکد ارز </th>
+                  <th style="width: 20%;"> عملیات </th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="item in curs" v-bind:key="item">
+                  <td>{{ item.name }}</td>
+                  <td><img style="width: 40%;" :src="item.get_image"> </td>
+                  <td style="width: 20%">{{ item.address }}</td>
+                  <td><img style="width: 40%;" :src="item.get_qr"></td>
+                  <td><a :href="'/edit-currency/' + item.id" class="btn btn-info" style="color: white" onclick="">
+                      Edit
+                    </a><button @click="deletes(item.id)" class="btn btn-danger" onclick="">
+                      Delete
+                    </button></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td v-if="!this.curs.length" colspan="6">ارزی موجود نیست</td>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
         </CCardBody>
       </CCard>
     </CCol>

@@ -95,8 +95,8 @@
                     <br>
                   </td>
                   <td class="col-6 notmob" style="text-align: left;">
-                    <a style="margin: 5px" :href="`/charge/${item[3]}`" class="btn btn-success"> واریز</a>
-                    <a style="margin: 5px" :href="`/withdraw/${item[3]}`" class="btn btn-danger"> برداشت</a>
+                    <a style="margin: 5px" :href="`/user/charge/${item[3]}`" class="btn btn-success"> واریز</a>
+                    <a style="margin: 5px" :href="`/user/withdraw/${item[3]}`" class="btn btn-danger"> برداشت</a>
                   </td>
                 </tr>
               </tbody>
@@ -140,8 +140,8 @@
                     <br>
                   </td>
                   <td class="col-6 notmob" style="text-align: left;">
-                    <a style="margin: 5px" :href="`/charge/${item[3]}`" class="btn btn-success"> واریز</a>
-                    <a style="margin: 5px" :href="`/withdraw/${item[3]}`" class="btn btn-danger"> برداشت</a>
+                    <a style="margin: 5px" :href="`/user/charge/${item[3]}`" class="btn btn-success"> واریز</a>
+                    <a style="margin: 5px" :href="`/user/withdraw/${item[3]}`" class="btn btn-danger"> برداشت</a>
                   </td>
                 </tr>
               </tbody>
@@ -160,13 +160,13 @@
               <tbody v-if="mob" v-for="item in wallets " v-bind:key="item">
                 <tr v-if="parseFloat(item[1])">
                   <td style="text-align: right;height: 60px; width: 25%">
-                    <a :href="`/cw/${item[3]}`">
+                    <a :href="`/user/cw/${item[3]}`">
                       <img style="position:relative;height: 100%; float:right; aspect-ratio:1/1; margin-top: 5%"
                         :src="item[0]">
                     </a>
                   </td>
                   <td class="col-2" style="width: 25%">
-                    <a :href="`/cw/${item[3]}`">
+                    <a :href="`/user/cw/${item[3]}`">
                       <h6
                         style="width: 100%;float:right;margin: auto; text-align: right;font-family:'arial';margin-top: 5px">
                         {{
@@ -181,9 +181,9 @@
                   </td>
 
                   <td v-if="mob" style="text-align: center; width: 50%">
-                    <a :href="`/cw/${item[3]}`">
+                    <a :href="`/user/cw/${item[3]}`">
                       <h6 style="margin: auto; margin-top: 5px;text-align: center;font-family:'calibri';">
-                        {{ item[1] }}
+                        {{ item[1].toFixed(6) }}
                       </h6>
                       <h6 style="margin: auto; text-align: center;font-family:'calibri';">
                         {{ (parseFloat(item[1]) * parseFloat(item[5])).toFixed(6) }}
@@ -196,13 +196,13 @@
               <tbody v-if="mob" v-for="item in wallets " v-bind:key="item">
                 <tr v-if="!parseFloat(item[1])">
                   <td class="col-1" style="text-align: right;height: 60px">
-                    <a :href="`/cw/${item[3]}`">
+                    <a :href="`/user/cw/${item[3]}`">
                       <img style="position:relative;height: 100%; float:right; aspect-ratio:1/1; margin-top: 5%"
                         :src="item[0]"></a>
 
                   </td>
                   <td class="col-2s">
-                    <a :href="`/cw/${item[3]}`">
+                    <a :href="`/user/cw/${item[3]}`">
                       <h6
                         style="width: 100%;float:right;margin: auto; text-align: right;font-family:'arial';margin-top: 5px">
                         {{
@@ -218,9 +218,9 @@
 
 
                   <td class="col-2" style="text-align: center;">
-                    <a :href="`/cw/${item[3]}`">
+                    <a :href="`/user/cw/${item[3]}`">
                       <h6 style="margin: auto; margin-top: 5px;text-align: center;font-family:'calibri';">
-                        {{ item[1] }}
+                        {{ item[1].toFixed(6) }}
                       </h6>
                       <h6 style="margin: auto; text-align: center;font-family:'calibri';">
                         {{ parseFloat(item[1]) * parseFloat(item[5]) }}

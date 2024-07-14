@@ -4,33 +4,40 @@
     <CCol>
       <CCard>
         <CCardHeader>
-         ایجاد پلن
+          ایجاد پلن
         </CCardHeader>
         <CCardBody>
 
           <form @submit.prevent="submit()" method="POST">
-                            <div>
-                            <input v-model="title" class="form-control" style="text-align: right; padding: 5px;margin: auto;" type="text" name="title" placeholder="تیتر" required><br>
-                            <textarea v-model="des" class="form-control" style="text-align: right;padding: 5px;margin: auto;" name="des" rows="5" cols="25" placeholder="توضیحات" required></textarea><br>
-                            <input v-model="percentm" class="form-control" style="text-align: right;padding: 5px;margin: auto;" type="number" step="0.00001" name="percentm" placeholder="درصد سود " required><br>
-                            <input v-model="period" style="text-align: right;padding: 5px" type="radio" value="year" name="period" id="period" required><label>سالانه</label>
-                            <br>
-                            <input v-model="period" style="text-align: right;padding: 5px" type="radio" value="half-year" name="period" id="period" required><label>شش ماهه</label>
-                            <br>
-                            <input v-model="period" style="text-align: right;padding: 5px" type="radio" value="month" name="period" id="period" required><label>ماهانه</label>
-                            <br>
-                            <input v-model="period"  style="text-align: right;padding: 5px" type="radio" value="day" name="period" id="period" required><label>روزانه</label>
-                            <br><br>
-                            <input v-model="cur" class="form-control" style="" type="text" list="cur" name="cur" placeholder="ارز"/>
-                             <datalist id="cur">
+            <div>
+              <input v-model="title" class="form-control" style="text-align: right; padding: 5px;margin: auto;"
+                type="text" name="title" placeholder="تیتر" required><br>
+              <textarea v-model="des" class="form-control" style="text-align: right;padding: 5px;margin: auto;"
+                name="des" rows="5" cols="25" placeholder="توضیحات" required></textarea><br>
+              <input v-model="percentm" class="form-control" style="text-align: right;padding: 5px;margin: auto;"
+                type="number" step="0.00001" name="percentm" placeholder="درصد سود " required><br>
+              <input v-model="period" style="text-align: right;padding: 5px" type="radio" value="year" name="period"
+                id="period" required><label>سالانه</label>
+              <br>
+              <input v-model="period" style="text-align: right;padding: 5px" type="radio" value="half-year"
+                name="period" id="period" required><label>شش ماهه</label>
+              <br>
+              <input v-model="period" style="text-align: right;padding: 5px" type="radio" value="month" name="period"
+                id="period" required><label>ماهانه</label>
+              <br>
+              <input v-model="period" style="text-align: right;padding: 5px" type="radio" value="day" name="period"
+                id="period" required><label>روزانه</label>
+              <br><br>
+              <!-- <input v-model="cur" class="form-control" style="" type="text" list="cur" name="cur" placeholder="ارز" /> -->
+              <select class="form-control" v-model="cur" id="cur">
 
-                                        <option v-for="item in curs">{{item.name}}</option>
+                <option v-for="item in curs" v-bind:key="item" :value="item.id">{{ item.name }}</option>
 
-                                     </datalist>
-                        </div>
-                                <br>
-                                <input class="btn btn-info" style="margin: auto; width: 30%; margin: 0 33%" type="submit">
-                        </form>  
+              </select>
+            </div>
+            <br>
+            <input class="btn btn-info" style="margin: auto; width: 30%; margin: 0 33%" type="submit">
+          </form>
         </CCardBody>
       </CCard>
     </CCol>
@@ -79,9 +86,9 @@ export default {
     },
     async submit() {
       await axios
-        .post(`changepass`, {
-          title : this.title,
-          percentm : this.percentm,
+        .post(`admin/plan`, {
+          title: this.title,
+          percentm: this.percentm,
           period: this.period,
           cur: this.cur,
           des: this.des
@@ -89,7 +96,8 @@ export default {
         })
         .then(response => response.data)
         .then(response => {
-          this.user = response
+          const toPath = this.$route.go || '/manage-plan'
+          this.$router.push(toPath)
         })
     }
   }

@@ -4,40 +4,41 @@
     <CCol>
       <CCard>
         <CCardHeader>
-          پروفایل
+          تیکت ها
         </CCardHeader>
         <CCardBody>
-          <div>
-            نام <input class="form-control" readonly style="color: black" v-model="user.name">
-            نام خانوادگی <input class="form-control" readonly style="color: black" v-model="user.lastname">
-            نام کاربری <input class="form-control" readonly style="color: black" v-model="user.username">
-            تلفن <input class="form-control" readonly style="color: black" v-model="user.mobile">
-            ایمیل <input class="form-control" readonly style="color: black" v-model="user.email">
+          <div class="autoplay" style="width: 100%;margin: auto;height:auto;overflow-y:hidden">
+            <div v-bind:key="item" class="card wals" style="">
+              <table v-if="subjects" class="table">
+                <thead>
+                  <tr>
+                    <th>کاربر</th>
+                    <th>موضوع</th>
+                    <th>وضعیت</th>
+                  </tr>
 
+                </thead>
+                <tbody>
+                  <tr @click="gotoloc(`/tickets/${item[4]}`);" v-for="item in subjects " style="cursor:pointer"
+                    v-bind:key="item">
+                    <td>{{ item[6] }}</td>
+                    <td>{{ item[0] }}</td>
+                    <td style="color: goldenrod" v-if="item[3] == 'در حال بررسی'">{{ item[3] }}
+                    </td>
+                    <td style="color: red" v-if="item[3] == 'بسته شده'">{{ item[3] }}</td>
+                    <td style="color: green" v-if="item[3] == 'پاسخ داده شده'">{{ item[3] }}
+                    </td>
+                    <td style="color: goldenrod" v-if="item[3] == 'پاسخ  مشتری'">{{ item[3] }}
+                    </td>
+                  </tr>
+                </tbody>
 
-
-
-
-
-
+              </table>
+            </div>
           </div>
         </CCardBody>
       </CCard><br>
-      <CCard>
-        <CCardHeader>
-          تغییر کلمه عبور
-        </CCardHeader>
-        <CCardBody>
 
-          <div class="autoplay">
-            کلمه عبور جدید <input class="form-control" type="password" v-model="password">
-            تکرار کلمه عبور <input class="form-control" type="password" v-model="repassword">
-            <br>
-            <a @click="submit()" class="btn btn-success">تغییر رمز</a>
-
-          </div>
-        </CCardBody>
-      </CCard>
     </CCol>
   </CRow>
 </template>
@@ -54,9 +55,9 @@ export default {
   data: () => ({
     showModal: [],
     user: '',
-    password: '',
-    opassword: '',
-    repassword: ''
+    subjects: [],
+    text: '',
+    title: ''
   }),
   mounted() {
     this.get_user()
@@ -65,27 +66,18 @@ export default {
     login() {
       this.$store.state.showloginindex = true
     },
+    gotoloc(path) {
+      window.location.replace(path);
+    },
     async get_user() {
       await axios
-        .get(`user`, this.$store.state.userheaders)
+        .get(`admin/subjects`)
         .then(response => response.data)
         .then(response => {
-          this.user = response
+          this.subjects = response
+          console.log(this.subjects)
         })
     },
-    async submit() {
-
-      await axios
-        .post(`admin/adminchangepass`, {
-          password: this.password,
-          repassword: this.repassword,
-          userid: this.user.id
-        })
-        .then(response => response.data)
-        .then(response => {
-          this.user = response
-        })
-    }
   }
 }
 </script>

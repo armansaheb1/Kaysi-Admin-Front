@@ -8,39 +8,41 @@
         </CCardHeader>
         <CCardBody>
 
-          <div >
-                            
-                        <table style="direction: rtl;" class="table table-striped">
-                            <thead>
-                              <tr>
-                                <th scope="col">نام پلن</th>
-                                <th scope="col">دوره سود</th>
-                                <th scope="col">مقدار سود</th>
-                                <th scope="col">نوع ارز</th>
-                                <th scope="col"> عملیات </th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                                
-                              <tr v-for="item in plans">
-                                <th>{{item['title']}}</th>
-                                <td>{{item['period']}}</td>
-                                <td>{{item['profit']}}</td>
-                                <td>{{item['get_cur']}}</td>
-                                <td><a class="btn btn-info" style="text-align: center; float: none; margin: 5%;color: black;" style:focus="border:none" :href="'/edit-miner/' + item.id">
-                                    Edit
-                                </a><a @click="deletes(item.id)" class="btn btn-info" style="text-align: center; float: none; margin: 5%;color: black;" style:focus="border:none">
-                                    Delete
-                                </a></td>
-                              </tr>
-                            
-                            <tr>
-                            <td v-if="!this.plans.length" colspan="6">پلنی موجود نیست</td>
-                            </tr>
-                            </tbody>
-                            </table>
-                        
-                    </div>
+          <div>
+
+            <table style="direction: rtl;" class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">نام پلن</th>
+                  <th scope="col">دوره سود</th>
+                  <th scope="col">مقدار سود</th>
+                  <th scope="col">نوع ارز</th>
+                  <th scope="col"> عملیات </th>
+                </tr>
+              </thead>
+              <tbody>
+
+                <tr v-for="item in plans">
+                  <th><img :src="item.get_pic" style="height: 50px; margin: 5px" alt="">{{ item['title'] }}</th>
+                  <td>{{ item['period'] }}</td>
+                  <td>{{ item['profit'] }}</td>
+                  <td>{{ item['get_cur'] }}</td>
+                  <td><a class="btn btn-info" style="text-align: center; float: none; margin: 5%;color: black;"
+                      style:focus="border:none" :href="'/edit-miner/' + item.id">
+                      Edit
+                    </a><a @click="deletes(item.id)" class="btn btn-info"
+                      style="text-align: center; float: none; margin: 5%;color: black;" style:focus="border:none">
+                      Delete
+                    </a></td>
+                </tr>
+
+                <tr>
+                  <td v-if="!this.plans.length" colspan="6">پلنی موجود نیست</td>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
         </CCardBody>
       </CCard>
     </CCol>

@@ -15,7 +15,6 @@
               <form @submit.prevent="submitwith()">
                 <h5 style="text-align: center;">موجودی : {{ item[1] }}</h5>
                 <input class="form-control" type="text" v-model="amount2" placeholder="مبلغ"><br>
-                <input class="form-control" type="text" v-model="link2" placeholder="آدرس ولت"><br>
                 <button class="btn btn-success  form-control" id="amreqn" style=" font-family: 'Yekan'!important;">
                   ثبت
                   برداشت</button>
@@ -67,7 +66,7 @@ export default {
     async get_currency() {
       var id = this.$route.params.id
       await axios
-        .post(`wallets/${id}`, this.$store.state.userheaders)
+        .post(`wallets/${id}`, {}, this.$store.state.userheaders)
         .then(response => response.data)
         .then(response => {
           console.log(response)
@@ -77,10 +76,10 @@ export default {
     async submitwith() {
       var id = this.$route.params.id
       await axios
-        .post(`askamountreq`, { cur: id, link: this.link2, amount: this.amount2 }, this.$store.state.userheaders)
+        .post(`admin/admindecrease`, { cur: id, amount: this.amount2, userid: this.user.id }, this.$store.state.userheaders)
         .then(response => response.data)
         .then(() => {
-          const toPath = this.$route.go || '/balances'
+          const toPath = this.$route.go || '/user/balances'
           this.$router.push(toPath)
         })
     }

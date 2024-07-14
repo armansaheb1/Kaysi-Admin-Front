@@ -13,10 +13,10 @@
           <div class="card-body" style="height:200px; width:100%">
             <div class=" chat-body" style="width:100%;padding:5%;height:300px">
               <div v-for="message in messages" :key="message.id" class="row chat-section" style="padding:5%">
-                <template v-if="username === message.user.username">
+                <template v-if="message.user === 'admin'">
                   <div class="text-white; subtle-blue-gradient"
                     style="padding-top:14px;background:#00aaff;border-radius:50%;width:50px;height:50px ; float:right ; text-align:center">
-                    <span style="text-align:center;color:white;font-family:'Yekan'">
+                    <span style="text-align:center;color:white;font-family:'Yekan'; font-size: 12px;">
                       شما</span>
                   </div>
                   <div style="width:75%; float:left">
@@ -26,7 +26,7 @@
                     </span>
                   </div>
                 </template>
-                <template style="direction:ltr!important" v-else>
+                <template v-else>
                   <div style="width:75%; float:right;padding-top:16px">
                     <span style="float:right!important; width:95%"
                       class="card-text speech-bubble speech-bubble-peer float-right text-dark">
@@ -35,7 +35,7 @@
                   </div>
                   <div class="text-white; subtle-blue-gradient"
                     style="margin-top:14px;padding-top:14px;background:#00aaff;border-radius:50%;width:50px;height:50px ; float:left; text-align:center">
-                    <span style="text-align:center;color:white;font-family:'Yekan'">
+                    <span style="text-align:center;color:white;font-family:'Yekan'; font-size: 12px;">
                       کاربر</span>
                   </div>
                 </template>
@@ -110,6 +110,7 @@ export default {
         .then(data => {
           this.messages.push(data.data)
           this.message = '' // clear the message after sending
+          console.log(data.data)
         })
         .catch((response) => {
         })
@@ -125,6 +126,7 @@ export default {
         .get(`chats/${this.$route.params.uri}/messages/`)
         .then(data => {
           this.messages = data.data.messages
+          console.log(data.data)
           setTimeout(() => {
             this.fetchChatSessionHistory()
           }, 3000)

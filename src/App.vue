@@ -30,7 +30,6 @@ import login from './views/pages/Login.vue'
 import loginmini from './views/pages/Loginmini.vue'
 import register from './views/pages/Register.vue'
 import { VueFinalModal } from 'vue-final-modal'
-import chat from './views/pages/components/Chat.vue';
 
 export default {
   setup() {
@@ -74,7 +73,6 @@ export default {
     VueFinalModal,
     register,
     loginmini,
-    chat
   }
 }
 </script>

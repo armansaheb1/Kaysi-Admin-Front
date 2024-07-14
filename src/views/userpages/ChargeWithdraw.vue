@@ -16,17 +16,8 @@
 
           <CCardBody>
 
-
-
-            <img style="position:relative;width: 30%; margin: 0 35% 5%; margin-top: 0px;float:left; aspect-ratio: 1/1;"
-              :src="item.get_qr">
-            <input type="text" name="" id="" class="form-control" :value="item.address"
-              style="border-radius: 5px 5px 0 0;">
-            <button class="btn btn-warning"
-              style="width: 100%; margin: auto;border-radius:  0 0 5px 5px; font-family: 'Yekan'!important;">کپی</button><br>
             <form @submit.prevent="submitcharge()" method="POST">
               <input class="form-control" v-model="amount" type="text" name="" id="" placeholder="مبلغ"><br>
-              <input class="form-control" v-model="link" type="text" name="" id="" placeholder="کد یا لینک پیگیری"><br>
               <button class="btn btn-success  form-control" id="amreqn" style=" font-family: 'Yekan'!important;">
                 ثبت
                 واریز</button><br><br>
@@ -53,7 +44,6 @@
             <form @submit.prevent="submitwith()">
               <h5 style="text-align: center;">موجودی : {{ item[1] }}</h5>
               <input class="form-control" type="text" v-model="amount2" placeholder="مبلغ"><br>
-              <input class="form-control" type="text" v-model="link2" placeholder="آدرس ولت"><br>
               <button class="btn btn-success  form-control" id="amreqn" style=" font-family: 'Yekan'!important;">
                 ثبت
                 برداشت</button>
@@ -109,7 +99,7 @@ export default {
       var id = this.$route.params.id
       await axios
 
-        .post(`currencies/${id}`, this.$store.state.userheaders)
+        .post(`currencies/${id}`, {}, this.$store.state.userheaders)
         .then(response => response.data)
         .then(response => {
           console.log(response)
@@ -119,7 +109,7 @@ export default {
     async get_currency2() {
       var id = this.$route.params.id
       await axios
-        .post(`wallets/${id}`, this.$store.state.userheaders)
+        .post(`wallets/${id}`, {}, this.$store.state.userheaders)
         .then(response => response.data)
         .then(response => {
           console.log(response)
@@ -129,20 +119,20 @@ export default {
     async submitcharge() {
       var id = this.$route.params.id
       await axios
-        .post(`addamountreq`, { cur: id, link: this.link, amount: this.amount }, this.$store.state.userheaders)
+        .post(`admin/adminincrease`, { cur: id, amount: this.amount, userid: this.user.id })
         .then(response => response.data)
         .then(() => {
-          const toPath = this.$route.go || '/balances'
+          const toPath = this.$route.go || '/user/balances'
           this.$router.push(toPath)
         })
     },
     async submitwith() {
       var id = this.$route.params.id
       await axios
-        .post(`askamountreq`, { cur: id, link: this.link2, amount: this.amount2 }, this.$store.state.userheaders)
+        .post(`admin/admindecrease`, { cur: id, amount: this.amount2, userid: this.user.id })
         .then(response => response.data)
         .then(() => {
-          const toPath = this.$route.go || '/balances'
+          const toPath = this.$route.go || '/user/balances'
           this.$router.push(toPath)
         })
     }

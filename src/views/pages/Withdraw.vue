@@ -8,41 +8,39 @@
         </CCardHeader>
         <CCardBody>
 
-          <div >
-                        <table style="direction: rtl;" class="table table-striped">
-                            <thead>
-                              <tr>
-                                <th scope="col" style="width: 20%;">نام کاربر</th>
-                                <th scope="col"> ارز</th>
-                                <th scope="col"> مبلغ</th>
-                                <th scope="col"> کد پیگیری </th>
-                                <th scope="col">  </th>
-                              </tr>
-                            </thead>
-                            <tbody>
+          <div>
+            <table style="direction: rtl;" class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col" style="width: 20%;">نام کاربر</th>
+                  <th scope="col"> ارز</th>
+                  <th scope="col"> </th>
+                </tr>
+              </thead>
+              <tbody>
 
-                              <tr v-for="item in plans">
-                                <th  style="width: 20%;">{{item.user.username}}</th>
-                                <td  style="width: 20%;">{{item.currency.brand}}</td>
-                                <td >{{item.amount}}</td>
-                                <td style="max-width:350px;overflow:auto">{{item.link}}</td>
-                                <td >
+                <tr v-for="item in plans" v-bind:key="item">
+                  <th style="width: 20%;">{{ item.user.username }}</th>
+                  <td style="width: 20%;">{{ item.currency.brand }}<br>{{ item.amount }}</td>
+                  <td>
+                    <button @click="aler(item.link)" style="width: 100%;margin:2px; font-size: 10px;"
+                      class="btn btn-warning"> نمایش کد
+                      آدرس</button>
+                    <button @click="accept(item.id)" style="width: 100%;margin:2px" type="submit"
+                      class="btn btn-info">تایید</button>
+                    <br>
+                    <button @click="reject(item.id)" style="width: 100%;margin:2px" class="btn btn-danger">رد</button>
+                  </td>
+                </tr>
 
-                                        <button @click="accept(item.id)" type="submit" class="btn btn-info">تایید</button>
-                                </td>
-                                <td >
-                                        <button @click="reject(item.id)" class="btn btn-info">رد</button>                                        
-                                    </td>
-                              </tr>
-                              
-                              <tr v-if="!plans.length">
-                            <td colspan="6">درخواستی موجود نیست</td>
-                              </tr>
-                              
-                            </tbody>
-                            </table>
-                       
-                    </div>
+                <tr v-if="!plans.length">
+                  <td colspan="6">درخواستی موجود نیست</td>
+                </tr>
+
+              </tbody>
+            </table>
+
+          </div>
         </CCardBody>
       </CCard>
     </CCol>
@@ -70,13 +68,16 @@ export default {
     this.get_plans()
   },
   methods: {
+    aler(text) {
+      alert(text)
+    },
     login() {
       this.$store.state.showloginindex = true
     },
-    images(aa){
-                var myWindow = window.open("", "MsgWindow", "width=800,height=500");
-                myWindow.document.write(`<img o style="width:100%;" src="${aa}">`);
-            },
+    images(aa) {
+      var myWindow = window.open("", "MsgWindow", "width=800,height=500");
+      myWindow.document.write(`<img o style="width:100%;" src="${aa}">`);
+    },
     async get_plans() {
       await axios
         .get(`admin/ask-amount-reqs`)
@@ -90,7 +91,7 @@ export default {
         .put(`admin/ask-amount-reqs/${id}`)
         .then(response => response.data)
         .then(response => {
-          this.plans = response
+          this.get_plans()
         })
     },
     async reject(id) {
@@ -98,7 +99,7 @@ export default {
         .delete(`admin/ask-amount-reqs/${id}`)
         .then(response => response.data)
         .then(response => {
-          this.plans = response
+          this.get_plans()
         })
     },
     async submit() {

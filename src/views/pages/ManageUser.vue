@@ -8,38 +8,53 @@
         </CCardHeader>
         <CCardBody>
 
-          <div >
-                            
-                        <table style="direction: rtl;" class="table table-striped">
-                            <thead>
-                              <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">نام کاربری</th>
-                                <th scope="col">وضعیت تایید</th>
-                                <th scope="col"> عملیات </th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                                
-                              <tr v-for="item in plans">
-                                <th>{{item.id}}</th>
-                                <th>{{item.username}}</th>
-                                <th>{{item.is_verified}}</th>
-                                
-                                <td><a class="btn form-control btn-warning" style="text-align: center; float: none; margin: 5%;color: black;" style:focus="border:none" :href="`usertoken/${item.id}`">
-                                    Go To Profile
-                                </a><a @click="deletes(item.id)" class="btn form-control btn-danger" style="text-align: center; float: none; margin: 5%;color: black;" style:focus="border:none">
-                                    Block
-                                </a></td>
-                              </tr>
-                            
-                            <tr>
-                            <td v-if="!this.plans.length"plans colspan="6">پلنی موجود نیست</td>
-                            </tr>
-                            </tbody>
-                            </table>
-                        
-                    </div>
+          <div>
+
+            <table style="direction: rtl;" class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">نام کاربری</th>
+                  <th scope="col">وضعیت تایید</th>
+                  <th scope="col"> عملیات </th>
+                </tr>
+              </thead>
+              <tbody>
+
+                <tr v-for="item in plans" v-bind:key="item">
+                  <th>{{ item.id }}</th>
+                  <th>{{ item.username }}</th>
+                  <th>{{ item.is_verified }}</th>
+
+                  <td><a class="btn form-control btn-warning"
+                      style="text-align: center; float: none; margin: 5%; width: 100%;font-size: 10px;color: black;"
+                      style:focus="border:none" :href="`usertoken/${item.id}`">
+                      Go To Profile
+                    </a><a v-if="item.is_active" @click="block(item.id)" class="btn form-control btn-danger"
+                      style="text-align: center; float: none; margin: 5%; width: 100%;font-size: 10px;color: black;"
+                      style:focus="border:none">
+                      Block
+                    </a>
+                    <a v-else @click="block(item.id)" class="btn form-control btn-danger"
+                      style="text-align: center; float: none; margin: 5%; width: 100%;font-size: 10px;color: black;"
+                      style:focus="border:none">
+                      Unblock
+                    </a><br>
+                    <a @click="deletes(item.id)" class="btn form-control btn-danger"
+                      style="text-align: center; float: none; margin: 5%; width: 100%;font-size: 10px;color: black;"
+                      style:focus="border:none">
+                      Delete
+                    </a>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td v-if="!this.plans.length" plans colspan="6">پلنی موجود نیست</td>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
         </CCardBody>
       </CCard>
     </CCol>
@@ -78,13 +93,23 @@ export default {
           this.plans = response
         })
     },
+    async block(id) {
+      await axios
+        .put(`/admin/user-token/${id}`)
+        .then(response => {
+          this.get_plans()
+
+        }
+        )
+    },
     async deletes(id) {
       await axios
-        .delete(`admin/user/${id}`)
-        .then(response => response.data)
+        .delete(`/admin/user-token/${id}`)
         .then(response => {
-          this.plans = response
-        })
+          this.get_plans()
+
+        }
+        )
     },
 
   }

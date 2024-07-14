@@ -22,7 +22,7 @@
               </tr>
             </thead>
 
-            <tbody v-if="!mob" v-for="item in plans " v-bind:key="item">
+            <tbody v-if="!mob" v-for="(item, idx ) in plans " v-bind:key="idx">
               <tr>
                 <td style="height: 60px">
                   <img style="position:relative;height: 100%; float:right; aspect-ratio:1/1; margin-top: 5%"
@@ -47,7 +47,9 @@
                   {{ item.plan.percent }}
                 </td>
                 <td>
-                  <button @click="close(item.id)" class="btn btn-danger">
+                  <input type="text" class="form-control" v-model="item.mablagh" placeholder="مبلغ بازگشت به کیف پول"
+                    name="" id="">
+                  <button @click="close(item.id, idx)" class="btn btn-danger">
                     بستن پلن
                   </button>
                 </td>
@@ -66,7 +68,7 @@
 
 
 
-            <tbody v-if="mob" v-for="item in plans " v-bind:key="item">
+            <tbody v-if="mob" v-for="(item, idx ) in plans " v-bind:key="item">
               <tr style="border-color: transparent;">
                 <td colspan="3" style=" text-align: center;width: 100%;"><img
                     style="position:relative;height: 100%; aspect-ratio:1/1; margin: auto;width: 15%;"
@@ -116,7 +118,9 @@
               </tr>
               <tr>
                 <td colspan="5">
-                  <button @click="close(item.id)" class="btn btn-danger form-control">
+                  <input type="text" class="form-control" v-model="item.mablagh" placeholder="مبلغ بازگشت به کیف پول"
+                    name="" id="">
+                  <button @click="close(item.id, idx)" class="btn btn-danger">
                     بستن پلن
                   </button>
                 </td>
@@ -150,6 +154,7 @@ export default {
     pic: '',
     mob: false,
     merrors: '',
+    mablagh: ''
   }),
   components: {
   },
@@ -183,14 +188,20 @@ export default {
         .then(response => response.data)
         .then(response => {
           this.plans = response
+          for (var item in this.plans) {
+            item.mablagh = 0
+          }
         })
     },
-    async close(id = null) {
+    async close(id, idx) {
+      if (!this.plans[idx].mablagh) {
+        alert('مبلغ وارد نشده است')
+      }
       await axios
-        .post(`closeplan`, { bidid: id }, this.$store.state.userheaders)
+        .post(`/admin/closeplan`, { bidid: id, mablagh: this.plans[idx].mablagh })
         .then(response => response.data)
-        .then(response => {
-          this.plans = response
+        .then(() => {
+          this.get_plans()
         }).catch(data => {
           console.log(data)
           this.$swal.fire('', data.response.data, "error");

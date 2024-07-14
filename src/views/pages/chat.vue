@@ -1,4 +1,3 @@
-<!-- eslint-disable no-undef -->
 <template>
   <div>
     <CRow>
@@ -42,6 +41,7 @@
 </template>
 
 <script>
+import { CCardHeader } from '@coreui/vue';
 import axios from 'axios'
 export default {
   name: 'pages-forums-list',
@@ -71,7 +71,7 @@ export default {
 
     search() {
       this.requests = []
-      for (var item of this.requestsback) {
+      for (item of this.requestsback) {
         if (item.get_user.includes(this.searchtxt)) {
           this.requests.push(item)
         }

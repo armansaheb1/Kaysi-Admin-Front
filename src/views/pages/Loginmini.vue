@@ -1,5 +1,4 @@
 <template>
-  <Vcode :show="isshowl" @success="login()" @close="onClose" />
   <CRow class="justify-content-center" style="overflow: hidden;">
     <CCol :md="8">
       <CCardGroup>
@@ -22,7 +21,7 @@
               </CInputGroup>
               <CRow>
                 <CCol :xs="12">
-                  <CButton @click="isshowl = true" color="primary" class="px-4 form-control"> ورود </CButton>
+                  <CButton @click="login()" color="primary" class="px-4 form-control"> ورود </CButton>
                 </CCol>
                 <CCol :xs="12" class="text-right">
                   <CButton color="link" class="px-0">
@@ -33,7 +32,7 @@
             </CForm>
           </CCardBody>
         </CCard>
-        
+
       </CCardGroup>
     </CCol>
   </CRow>
@@ -41,7 +40,6 @@
 
 <script>
 import axios from 'axios'
-import Vcode from "vue3-puzzle-vcode";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -49,12 +47,8 @@ export default {
   data() {
     return {
       username: '',
-      password: '',
-      isshowl: false
+      password: ''
     }
-  },
-  components: {
-    Vcode
   },
   methods: {
     async login() {

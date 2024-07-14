@@ -10,7 +10,7 @@
               <img src="/logo.png" style="border-radius: 50%;height: 50px; border-radius: 50%;" alt="">
             </a>
           </li>
-          <li style="" class="lir"><a style="color: whitesmoke; text-decoration: none;" href="/">خانه</a>
+          <li style="" class="lir"><a style="color: whitesmoke; text-decoration: none;" href="">خانه</a>
           </li>
           <li style="" class="lir"><a style="color: whitesmoke; text-decoration: none;" href="/about-us">درباره
               ما</a>

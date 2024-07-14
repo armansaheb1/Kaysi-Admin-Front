@@ -8,24 +8,32 @@
         </CCardHeader>
         <CCardBody>
 
-          <form  enctype="multipart/form-data" @submit.prevent="submit()" method="POST">
-                  <div>
-                  <input v-model="name" class="form-control" style="text-align: right; padding: 5px;width: 90%;margin: auto;" type="text" name="name" placeholder="نام ارز" required><br>
-                  <input v-model="brand" class="form-control" style="text-align: right; padding: 5px;width: 90%;margin: auto;" type="text" name="brand" placeholder="نماد ارز" required><br>
-                  <input v-model="address" class="form-control" style="text-align: right; padding: 5px;width: 90%;margin: auto;" type="text" name="address" placeholder="آدرس کیف پول ارز" required><br>
-                   <label style="width: 90%;margin: 0 5%">بارکد</label>
-                  <input class="form-control" style="text-align: right; padding: 5px;width: 90%;margin: auto;"  type="file" id="qr" placeholder=" بارکد کیف پول ارز" value=""  required><br>
-                   <label style="width: 90%;margin: 0 5%">تصویر</label>
-                  <input class="form-control" style="text-align: right; padding: 5px;width: 90%;margin: auto;"  type="file" id="pic" placeholder="آدرس تصویر ارز" value=""  required><br>
-              </div>
-              <datalist id="cats">
-                <option></option>
-              </datalist>
-                      <br>
-                      <input hidden name="iden" type="number" value="" readonly><br>
-                      <input class="btn btn-info" type="submit">
+          <form enctype="multipart/form-data" @submit.prevent="submit()" method="POST">
+            <div>
+              <input v-model="name" class="form-control"
+                style="text-align: right; padding: 5px;width: 90%;margin: auto;" type="text" name="name"
+                placeholder="نام ارز" required><br>
+              <input v-model="brand" class="form-control"
+                style="text-align: right; padding: 5px;width: 90%;margin: auto;" type="text" name="brand"
+                placeholder="نماد ارز" required><br>
+              <input v-model="address" class="form-control"
+                style="text-align: right; padding: 5px;width: 90%;margin: auto;" type="text" name="address"
+                placeholder="آدرس کیف پول ارز" required><br>
+              <label style="width: 90%;margin: 0 5%">بارکد</label>
+              <input class="form-control" style="text-align: right; padding: 5px;width: 90%;margin: auto;" type="file"
+                id="qr" placeholder=" بارکد کیف پول ارز" value="" required><br>
+              <label style="width: 90%;margin: 0 5%">تصویر</label>
+              <input class="form-control" style="text-align: right; padding: 5px;width: 90%;margin: auto;" type="file"
+                id="pic" placeholder="آدرس تصویر ارز" value="" required><br>
+            </div>
+            <datalist id="cats">
+              <option></option>
+            </datalist>
+            <br>
+            <input hidden name="iden" type="number" value="" readonly><br>
+            <input class="btn btn-info" type="submit">
 
-                      </form>
+          </form>
         </CCardBody>
       </CCard>
     </CCol>
@@ -72,9 +80,9 @@ export default {
       formdata.append('brand', this.brand)
       formdata.append('address', this.address)
       await axios
-        .post(`admin/cur/${id}`, formdata)
+        .post(`admin/cur`, formdata)
         .then(response => response.data)
-        .then(response => {
+        .then(() => {
           alert('added successfully')
         })
     }

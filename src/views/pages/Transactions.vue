@@ -1,36 +1,41 @@
 <template>
   <CRow>
     <CCol>
+      <CFormInput @input="search()" v-model="searchtxt" type="text" placeholder="Search ..."
+        style="text-align: center;"></CFormInput>
+      <br>
       <CCard>
         <CCardHeader>
           تاریخچه تراکنش ها
 
         </CCardHeader>
         <CCardBody>
-          <table class="table" style="margin: 0; text-align: center;">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">نام کاربر</th>
-                <th scope="col">نوع ارز</th>
-                <th scope="col">مبلغ</th>
-                <th scope="col">نوع تراکنش</th>
-                <th scope="col">زمان تراکنش </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="item in transactions" v-bind:key="item">
-                <th scope="col">{{ item.id }}</th>
-                <th scope="col">{{ item.user.username }}</th>
-                <th scope="col">{{ item.currency.brand }}</th>
-                <th scope="col">{{ item.amount }}</th>
+          <div class="table-responsive">
+            <table class="table" style="margin: 0; text-align: center;">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">نام کاربر</th>
+                  <th scope="col">نوع ارز</th>
+                  <th scope="col">مبلغ</th>
+                  <th scope="col">نوع تراکنش</th>
+                  <th scope="col">زمان تراکنش </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="item in transactions" v-bind:key="item">
+                  <th scope="col">{{ item.id }}</th>
+                  <th scope="col">{{ item.user.username }}</th>
+                  <th scope="col">{{ item.currency.brand }}</th>
+                  <th scope="col">{{ item.amount }}</th>
 
-                <th v-if="item.act == 1" scope="col" style="color: green">واریز</th>
-                <th v-else scope="col" style="color: red">برداشت</th>
-                <th scope="col">{{ item.date }}</th>
-              </tr>
-            </tbody>
-          </table>
+                  <th v-if="item.act == 1" scope="col" style="color: green">واریز</th>
+                  <th v-else scope="col" style="color: red">برداشت</th>
+                  <th scope="col">{{ item.date }}</th>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </CCardBody>
       </CCard><br>
 
@@ -40,6 +45,7 @@
 
 <script>
 
+import { CFormInput } from '@coreui/vue';
 import axios from 'axios'
 
 export default {
@@ -51,8 +57,10 @@ export default {
   data: () => ({
     showModal: [],
     transactions: [],
+    transactionsback: [],
     currency: '',
     plans: [],
+    searchtxt: '',
     plan: '',
     pic: ''
   }),
@@ -70,8 +78,23 @@ export default {
         .then(response => response.data)
         .then(response => {
           this.transactions = response
+          this.transactionsback = response
+
         })
     },
+    search() {
+      setTimeout(() => {
+        this.transactions = []
+        for (var item of this.transactionsback) {
+          if (String(item.id).includes(String(this.searchtxt))) {
+            console.log(String(item.id))
+            console.log(this.searchtxt)
+            console.log(String(item.id).includes(String(this.searchtxt)))
+            this.transactions.push(item)
+          }
+        }
+      }, 100);
+    }
   }
 }
 </script>

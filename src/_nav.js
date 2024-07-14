@@ -129,6 +129,12 @@ export default [
   },
   {
     component: 'CNavItem',
+    name: 'تیکت ها',
+    icon: 'cil-list',
+    to: '/tickets',
+  },
+  {
+    component: 'CNavItem',
     name: 'چت ها',
     icon: 'cil-list',
     to: '/chats',
@@ -192,54 +198,8 @@ export default [
       },
     ],
   },
-  {
-    component: 'CNavGroup',
-    name: 'موجودی ها',
-    to: '/buttons',
-    icon: 'cil-cursor',
-  },
-  {
-    component: 'CNavGroup',
-    name: 'کسب درآمد',
-    to: '/forms',
-    icon: 'cil-people',
-    items: [
-      {
-        component: 'CNavItem',
-        name: 'استخدام تریدر',
-        to: '/jobs',
-      },
-      {
-        component: 'CNavItem',
-        name: 'استخدام برنانه نویس',
-        to: '/jobs',
-      },
-      {
-        component: 'CNavItem',
-        name: 'معرفی به دوستان',
-        to: '/referral',
-      },
-    ],
-  },
-  /*  {
-      component: 'CNavItem',
-      name: 'شارژ حساب',
-      to: '/charge',
-      icon: 'cil-chart-pie',
-    },
-    {
-      component: 'CNavItem',
-      name: 'برداشت',
-      to: '/withdraw',
-      icon: 'cil-chart-pie',
-    },
-  */
-  {
-    component: 'CNavItem',
-    name: 'تیکت',
-    to: '/ticket',
-    icon: 'cil-envelope-open',
-  },
+
+
   {
     component: 'CNavItem',
     name: 'خروج',

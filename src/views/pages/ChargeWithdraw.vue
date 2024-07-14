@@ -51,7 +51,18 @@
 
 
             <form @submit.prevent="submitwith()">
-              <h5 style="text-align: center;">موجودی : {{ item[1] }}</h5>
+              <h5 style="text-align: center;">موجودی :
+
+                <a v-if="item[1] < 0.000001">
+                  {{ item[1].toFixed(10) }}
+                </a>
+                <a v-else-if="item[1] > 100">
+                  {{ parseInt(item[1]) }}
+                </a>
+                <a v-else>
+                  {{ item[1].toFixed(6) }}
+                </a>
+              </h5>
               <input class="form-control" type="text" v-model="amount2" placeholder="مبلغ"><br>
               <input class="form-control" type="text" v-model="link2" placeholder="آدرس ولت"><br>
               <button class="btn btn-success  form-control" id="amreqn" style=" font-family: 'Yekan'!important;">

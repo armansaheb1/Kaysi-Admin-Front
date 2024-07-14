@@ -8,26 +8,34 @@
         </CCardHeader>
         <CCardBody>
 
-          <form  enctype="multipart/form-data" @submit.prevent="submit()" method="POST">
-                  <div>
-                  <input v-model="name" class="form-control" style="text-align: right; padding: 5px;width: 90%;margin: auto;" type="text" name="name" placeholder="نام ارز" required><br>
-                  <input v-model="brand" class="form-control" style="text-align: right; padding: 5px;width: 90%;margin: auto;" type="text" name="brand" placeholder="نماد ارز" required><br>
-                  <input v-model="address" class="form-control" style="text-align: right; padding: 5px;width: 90%;margin: auto;" type="text" name="address" placeholder="آدرس کیف پول ارز" required><br>
-                  <img style="width: 10%;margin: 0 45%" :src="get_qr">
-                   <label style="width: 90%;margin: 0 5%">بارکد</label>
-                  <input class="form-control" style="text-align: right; padding: 5px;width: 90%;margin: auto;"  type="file" id="qr" placeholder=" بارکد کیف پول ارز" value=""><br>
-                  <img style="width: 10%;margin: 0 45%" :src="get_image">
-                   <label style="width: 90%;margin: 0 5%">تصویر</label>
-                  <input class="form-control" style="text-align: right; padding: 5px;width: 90%;margin: auto;"  type="file" id="pic" placeholder="آدرس تصویر ارز" value=""><br>
-              </div>
-              <datalist id="cats">
-                <option></option>
-              </datalist>
-                      <br>
-                      <input hidden name="iden" type="number" value="" readonly><br>
-                      <input class="btn btn-info" type="submit">
+          <form enctype="multipart/form-data" @submit.prevent="submit()" method="POST">
+            <div>
+              <input v-model="name" class="form-control"
+                style="text-align: right; padding: 5px;width: 90%;margin: auto;" type="text" name="name"
+                placeholder="نام ارز" required><br>
+              <input v-model="brand" class="form-control"
+                style="text-align: right; padding: 5px;width: 90%;margin: auto;" type="text" name="brand"
+                placeholder="نماد ارز" required><br>
+              <input v-model="address" class="form-control"
+                style="text-align: right; padding: 5px;width: 90%;margin: auto;" type="text" name="address"
+                placeholder="آدرس کیف پول ارز" required><br>
+              <img style="width: 10%;margin: 0 45%" :src="get_qr">
+              <label style="width: 90%;margin: 0 5%">بارکد</label>
+              <input class="form-control" style="text-align: right; padding: 5px;width: 90%;margin: auto;" type="file"
+                id="qr" placeholder=" بارکد کیف پول ارز" value=""><br>
+              <img style="width: 10%;margin: 0 45%" :src="get_image">
+              <label style="width: 90%;margin: 0 5%">تصویر</label>
+              <input class="form-control" style="text-align: right; padding: 5px;width: 90%;margin: auto;" type="file"
+                id="pic" placeholder="آدرس تصویر ارز" value=""><br>
+            </div>
+            <datalist id="cats">
+              <option></option>
+            </datalist>
+            <br>
+            <input hidden name="iden" type="number" value="" readonly><br>
+            <input class="btn btn-info" type="submit">
 
-                      </form>
+          </form>
         </CCardBody>
       </CCard>
     </CCol>
@@ -49,7 +57,7 @@ export default {
     name: '',
     brand: '',
     cur: '',
-    get_image : '',
+    get_image: '',
     get_qr: ''
   }),
   mounted() {
@@ -62,7 +70,7 @@ export default {
     async get_curs() {
       var id = this.$route.params.id
       await axios
-      .get(`admin/plan/${id}`)
+        .get(`admin/cur/${id}`)
         .then(response => response.data)
         .then(response => {
           this.name = response.name
@@ -75,17 +83,17 @@ export default {
     async submit() {
       var id = this.$route.params.id
       var formdata = new FormData()
-      if(document.getElementById('qr').files[0]){
+      if (document.getElementById('qr').files[0]) {
         var qr = document.getElementById('qr').files[0]
         formdata.append('qr', qr, qr.name)
       }
-      if(document.getElementById('pic').files[0]){
+      if (document.getElementById('pic').files[0]) {
         var pic = document.getElementById('pic').files[0]
         formdata.append('pic', pic, pic.name)
       }
-      
-      
-      
+
+
+
       formdata.append('name', this.name)
       formdata.append('brand', this.brand)
       formdata.append('address', this.address)

@@ -18,6 +18,11 @@ export default [
     items: [
       {
         component: 'CNavItem',
+        name: ' اضافه کردن پلن',
+        to: '/user/plan',
+      },
+      {
+        component: 'CNavItem',
         name: 'پلن های من',
         to: '/user/plans',
       },
@@ -28,6 +33,11 @@ export default [
     name: 'ماینر ها',
     icon: 'cil-star',
     items: [
+      {
+        component: 'CNavItem',
+        name: 'اضافه کردن ماینر',
+        to: '/user/miner',
+      },
       {
         component: 'CNavItem',
         name: 'ماینر های من',
@@ -46,11 +56,7 @@ export default [
         name: 'پرداخت و واریز',
         to: '/user/transactions',
       },
-      {
-        component: 'CNavItem',
-        name: 'درآمد ها',
-        to: '/user/profits',
-      },
+
     ],
   },
   {
